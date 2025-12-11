@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Análisis de Dataset</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="login-container" style="width: 90%; max-width: 1200px;">
+    {% if welcomeText %}
+    <h1>Bienvenido, {{ welcomeText }}</h1>
+    {% else %}
+    <h1>Bienvenido</h1>
+    {% endif %}
+
+    <div class="form-container">
+      <h3>Generar Gráfico de Regresión</h3>
+      <p>Sube el archivo <i>Life Expectancy Data.csv</i></p>
+      <form action="/welcome" method="post" enctype="multipart/form-data">
+        <label for="csv_file">Archivo CSV:</label>
+        <input type="file" id="csv_file" name="csv_file" accept=".csv" required>
+        <button type="submit">Analizar y Graficar</button>
+      </form>
+    </div>
+
+    {% if error_msg %}
+    <div style="color: red; margin: 15px 0;">
+        <strong>Error:</strong> {{ error_msg }}
+    </div>
+    {% endif %}
+
+    {% if plot_url %}
+    <div class="table-container" style="text-align: center;">
+      <h3>Resultado del Análisis</h3>
+      {% if r_squared %}
+      <p><strong>Score:</strong> {{ r_squared }}</p>
+      {% endif %}
+      
+      <img src="data:image/png;base64,{{ plot_url }}" alt="Gráfico de Regresión" style="max-width: 100%; height: auto; border: 1px solid #ccc;">
+    </div>
+    {% endif %}
+
+  </div>
+</body>
+</html>
